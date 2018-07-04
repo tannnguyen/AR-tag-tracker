@@ -1,5 +1,5 @@
 import numpy as np 
-import cv2
+import cv2 
 
 # Open camera to capture the video
 '''
@@ -23,22 +23,19 @@ cv2.destroyAllWindows()
 
 # Alternative: Read in the arrow image and test on them. 
 # Read image in grayscale
-img = cv2.imread("images.jpg", 0)
+img = cv2.imread("images.jpg")
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Edge detection
 ret,th1 = cv2.threshold(img,150,255,cv2.THRESH_BINARY)
 edged=cv2.Canny(th1,127,200)
-
-# Contours
-(img2,cnts, _) = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-print(len(cnts))
-
-for c in cnts:
-    area = cv2.contourArea(c)
-    #print area
-    cv2.drawContours(img,[c],0,(255,255,0),1)
-
-cv2.imshow("contours", img)
+minLineLength = 100
+maxLineGap = 10
+lines = cv2.HoughLinesP(edged,1,np.pi/180,100,minLineLength,maxLineGap)
+for line in lines:
+    for x1,y1,x2,y2 in line:
+        cv2.line(img,(x1,y1),(x2,y2),(0,255,0),2)
+cv2.imshow('houghlines5.jpg',img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 

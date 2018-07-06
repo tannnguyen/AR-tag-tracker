@@ -8,7 +8,7 @@ while(True):
     ret, frame = cap.read()
     
     # Our operations on the frame come here
-    #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     low_red = np.array([0, 70, 50])
@@ -20,7 +20,6 @@ while(True):
     mask = mask1 | mask2
 
     # Edge detection
-    threshold = cv2.adaptiveThreshold(mask,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 3, 5)
     blur = cv2.GaussianBlur(mask, (5, 5), 0)
     _, otsu = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     cv2.imshow('otsu', otsu)
@@ -43,22 +42,6 @@ while(True):
     cv2.imshow('frame',frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-'''
-    threshold = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 3, 5)
-    blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    _, otsu = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    edged=cv2.Canny(otsu,100,200)
-    edged_blur = cv2.GaussianBlur(edged, (5,5), 0)
-    minLineLength = 100 
-    maxLineGap = 10
-    lines = cv2.HoughLinesP(edged_blur,1,np.pi/180,100,minLineLength,maxLineGap)
-    if (type(lines) == 'numpy.ndarray'):
-        for line in lines:
-            for x1,y1,x2,y2 in line:
-                cv2.line(frame,(x1,y1),(x2,y2),(0,255,0),2)  
-    cv2.waitKey(50)
-''' 
-
 
 # When everything done, release the capture
 cap.release()

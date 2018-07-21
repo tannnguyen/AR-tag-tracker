@@ -8,8 +8,6 @@ while(True):
     ret, frame = cap.read()
     
     # Our operations on the frame come here
-
-
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     low_red = np.array([0, 70, 50])
     high_red = np.array([10, 255, 255])

@@ -1,16 +1,18 @@
-import numpy as np
 import cv2
+import numpy as np 
+from ar_markers import detect_markers
 
-cap = cv2.VideoCapture(0)
-
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('green_arrow.avi', fourcc, 20.0, (640, 480))
+cap = cv2.VideoCapture(1)
 
 while (cap.isOpened()):
     ret, frame = cap.read()
 
+    markers = detect_markers(frame)
+    print(markers)
+    for marker in markers:
+        marker.highlite_marker(frame)
+    
     if (ret == True):
-        out.write(frame)
         cv2.imshow('frame', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -19,5 +21,4 @@ while (cap.isOpened()):
 
 # Release everything if job is finished
 cap.release()
-out.release()
 cv2.destroyAllWindows()

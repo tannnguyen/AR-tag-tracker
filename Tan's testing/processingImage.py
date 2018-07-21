@@ -7,7 +7,7 @@ img = cv2.imread("arrow_0.15.jpg")
 rows, cols, colors = img.shape
 
 M = cv2.getRotationMatrix2D((cols/2,rows/2),180,1)
-img = cv2.warpAffine(img,M,(cols,rows))
+#img = cv2.warpAffine(img,M,(cols,rows))
 
 #gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -31,10 +31,10 @@ edged=cv2.Canny(otsu,100,200)
 cv2.imshow('edged', edged)
 minLineLength = 5
 maxLineGap = 10
-erosion = cv2.dilate(edged, kernel, iterations=3)
-cv2.imshow('erode', erosion)
+dilation = cv2.dilate(edged, kernel, iterations=3)
+cv2.imshow('dilation', dilation)
 
-lines = cv2.HoughLinesP(erosion,1,np.pi/180,40, minLineLength, maxLineGap)
+lines = cv2.HoughLinesP(dilation,1,np.pi/180,40, minLineLength, maxLineGap)
 
 max_y = -1
 max_y_line = []

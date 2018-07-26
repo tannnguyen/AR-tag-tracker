@@ -15,12 +15,23 @@ def put_text(img, text, pos, color):
 def main():
     target = (200, 200)
     radius = 80
-
+    fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+    out = cv2.VideoWriter('sample2.avi', fourcc, 6.0, (1280, 1024))
+    
 
     while True:
+        
         _, img = cap.read()
 
         markers = tracker.find_markers(img)
+                # Track all markers on screen
+        for m_id, marker in markers.items():
+            cv2.drawContours(img, [marker.contour], -1, GREEN, 2)
+            cv2.line(img, marker.position, marker.major_axis, WHITE, 2)
+            cv2.line(img, marker.position, marker.minor_axis, WHITE, 2)
+            cv2.putText(img, str(marker), marker.position,
+                    fontFace=cv2.FONT_HERSHEY_DUPLEX,
+                    fontScale=0.6, color=RED)
 
         if 1 in markers:
             marker = markers[1]
@@ -47,24 +58,26 @@ def main():
         else:
             cv2.circle(img, target, radius, RED, 2)
 
-        # # Track all markers on screen
-        # for m_id, marker in markers.items():
-        #     cv2.drawContours(img, [marker.contour], -1, GREEN, 2)
-        #     cv2.line(img, marker.position, marker.major_axis, WHITE, 2)
-        #     cv2.line(img, marker.position, marker.minor_axis, WHITE, 2)
-        #     cv2.putText(img, str(marker), marker.position,
-        #             fontFace=cv2.FONT_HERSHEY_DUPLEX,
-        #             fontScale=0.6, color=RED)
+        # Track all markers on screen
+        for m_id, marker in markers.items():
+            cv2.drawContours(img, [marker.contour], -1, GREEN, 2)
+            cv2.line(img, marker.position, marker.major_axis, WHITE, 2)
+            cv2.line(img, marker.position, marker.minor_axis, WHITE, 2)
+            cv2.putText(img, str(marker), marker.position,
+                    fontFace=cv2.FONT_HERSHEY_DUPLEX,
+                    fontScale=0.6, color=RED)
+        out.write(img)
         cv2.imshow('Main window', img)
         if (cv2.waitKey(1) & 0xFF == ord('q')):
             break
-
-
+    out.release()
 
 if __name__ == '__main__':
     cap = cv2.VideoCapture(1)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1920)
+
     main()
+
     cap.release()
     cv2.destroyAllWindows()

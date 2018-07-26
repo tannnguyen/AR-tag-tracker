@@ -10,11 +10,7 @@ HEIGHT = SQUARE_PX * 5
 
 VALID_MARKERS = {
     1: [[1, 0, 1], [0, 0, 0], [0, 0, 1]],
-    2: [[1, 0, 1], [0, 0, 1], [0, 0, 1]],
-    3: [[1, 0, 1], [0, 0, 0], [0, 1, 1]],
-    4: [[1, 1, 1], [0, 0, 0], [0, 0, 1]],
-    5: [[1, 1, 1], [0, 0, 1], [0, 0, 1]],
-    6: [[1, 1, 1], [0, 0, 0], [0, 1, 1]]
+    2: [[1, 0, 1], [0, 0, 1], [0, 0, 1]]
 }   
 
 
@@ -76,12 +72,12 @@ def validate_marker(marker):
 
 def find_markers(img):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    #blur = cv2.medianBlur(gray, 5)
     blur = cv2.GaussianBlur(gray, (3, 3), 0)
-    __, thresh = cv2.threshold(blur, 100, 255, cv2.THRESH_BINARY)
+    __, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     __, contours, __ = cv2.findContours(thresh.copy(), cv2.RETR_TREE,
                                     cv2.CHAIN_APPROX_SIMPLE)
-
+    
+    cv2.imshow('otsu', thresh)
     markers = dict()
 
     for contour in contours:

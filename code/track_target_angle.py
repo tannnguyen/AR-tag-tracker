@@ -13,10 +13,10 @@ def put_text(img, text, pos, color):
                        fontScale=0.6, color=color)
 
 def main():
-    target = (200, 200)
+    target = (1087, 436)
     radius = 80
     fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
-    out = cv2.VideoWriter('sample2.avi', fourcc, 6.0, (1280, 1024))
+    out = cv2.VideoWriter('sample3.avi', fourcc, 6.0, (2048, 1536))
     
 
     while True:
@@ -37,6 +37,7 @@ def main():
             marker = markers[1]
             a = np.array(marker.major_axis)
             b = np.array(marker.position)
+            target = marker.position
             c = np.array(target)
             phi = marker.angle_to_point(target)
 
@@ -74,9 +75,11 @@ def main():
 
 if __name__ == '__main__':
     cap = cv2.VideoCapture(1)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1920)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1944)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 2592)
 
+    print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     main()
 
     cap.release()

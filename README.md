@@ -1,4 +1,9 @@
 # Robot
 
-Test the code from Github antoneri
-Link: https://github.com/antoneri/rover-follow-target 
+## Author
+* Tan Nguyen
+
+## Acknowledgement
+* A lot of help from Joseph Pan
+* Guidance from Professor Charbel Rizk
+* Code resources from Github antoneri: https://github.com/antoneri/rover-follow-target

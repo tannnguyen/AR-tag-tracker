@@ -31,7 +31,6 @@ maxLineGap = 10
 
 
 lines = cv2.HoughLinesP(edges_small,1,np.pi/180,300, minLineLength, maxLineGap)
-print(lines)
 for line in lines:
     for x1,y1,x2,y2 in line:
         if (x2 == x1):
